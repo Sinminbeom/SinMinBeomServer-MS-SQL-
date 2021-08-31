@@ -1,0 +1,66 @@
+<?php
+$title = $_POST['title'];
+$start = $_POST['start'];
+$end = $_POST['end'];
+
+// Allow from any origin
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
+
+// Access-Control headers are received during OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers:  {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    exit(0);
+}
+
+
+try
+{
+    $db = mysqli_connect("localhost", "root", "root", "minbeom");
+    mysqli_query($db,"set names utf8");
+
+    if($db){
+        $status = "Fail";
+    }
+    else{
+        $status = "success";
+    }
+
+    $json = array("title"=> $title,"start"=> $start,"end"=> $end);
+    
+    $json1 = json_encode($json,JSON_UNESCAPED_UNICODE);
+    //
+    // $start = "CALL SetCalendar('[".$json1."]')";
+    // echo 'console.log('.$start.')';
+    //
+    //CALL SetCalendar('[{"start":"2020-01-02","title":"1213"}]',@Status,@Msg,@Message);
+    $result = mysqli_query($db, "CALL SetCalendar('[".$json1."]',@Status,@Msg,@Message)");
+    $success = array("result1"=> "success");
+    $fail = array("result1"=> mysqli_error($db));
+
+    if($result){
+        echo json_encode($success);
+    }
+    else{
+        echo json_encode($json1);
+    }
+    // while ($row = mysqli_fetch_array($result)){
+
+    //     print_r($row);
+  
+    //     echo '<br>';
+  
+    //  }
+}
+catch(Exception $e)
+{
+    echo $e->getMessage();
+}
+?>
