@@ -17,51 +17,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-$serverName = "192.168.219.103";
+$serverName = '192.168.219.103';
 $connectionOptions = array(
-    "Database" => "MinBeom",
-    "UID" => "sa",
-    "PWD" => "tlsalsqja12!"
+    'Database' => 'MinBeom',
+    'UID' => 'sa',
+    'PWD' => 'tlsalsqja12!'
 );
+
 //Establishes the connection
 $conn = sqlsrv_connect($serverName, $connectionOptions);
+$query = "EXEC BoardQuery";
+
+if ($conn){
+
+    $rows = array();
+    if(($result = sqlsrv_query($conn,$query)) !== false){
+        while($r = sqlsrv_fetch_object($result)) {
+            $rows[] = $r;
+        }
+    }
+    sqlsrv_free_stmt($result);
+    sqlsrv_close($conn);
+
+    echo json_encode($rows);
+
+}else{
+    die(print_r(sqlsrv_errors(), true));
+}
 
 
-// try{
 
-//     //기본 포트일 경우 ip addr 만  
-//     $mssql_server="49.168.71.214:1433"; 
-//     $mssql_ID="sa"; 
-//     $mssql_PW="tlsalsqja12!"; 
-//     $mssql_DB = "MinBeom"; 
-
-//     //DB 에 접속 
-//     $conn = mssql_connect($mssql_server,$mssql_ID,$mssql_PW); 
-
-//     //접속이 안되면 로그 뿌리고 죽기 
-//     if(!$conn) die("couldn't connect to SQL Server on $mssql_server"); 
-    
-//     //테스트로 데이터 날려볼 쿼리문 작성 
-//     $query = "select * from Board"; 
-    
-//     //쿼리를 DB에 쏘기 뿌슝~~~ 
-//     $results = mssql_query($query,$conn);
-
-//     //결과를 화면에 찍어 볼까? 데이터가 많을지 몰라서 while 문 사용했음 ㅎㅎ 센스쟁이  
-//     while($result = mssql_fetch_array($results,MSSQL_ASSOC)) 
-//     { 
-//         print_r($result); // 결과를 1 rows 씩 출력 
-//         echo "<br/>"; // 1rows 후 한줄 엔터 효과 발동 
-//     } 
-
-//     // results 를 받았으면 DB에게 자유를 
-//     mssql_free_result($results); 
-//     mssql_close($conn); 
-// }
-// catch(Exception $e)
-// {
-//     echo $e->getMessage();
-// }
 
 
 // try
