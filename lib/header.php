@@ -1,8 +1,5 @@
-<?php
-    require __DIR__ . '/lib/mssql.php';
-
-    $boardseq = $_GET["boardseq"];
-
+<?php    
+    //상단에 이것들을 쓰지 않으면 서버파일들이 열리지 않음, 모든 파일에서 쓰이기 때문에 따로 빼놓음
     // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
         header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -19,17 +16,4 @@
             header("Access-Control-Allow-Headers:  {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
         exit(0);
     }
-
-    //json 으로 변경
-    $json = array(
-        'BoardSeq' => $boardseq
-    );
-
-    //json -> string 으로 변경
-    $json = json_encode($json);
-
-    $result = mssql_dbconnet('BoardQuery',$json,'Query');
-
-    echo $result;
-
 ?>
