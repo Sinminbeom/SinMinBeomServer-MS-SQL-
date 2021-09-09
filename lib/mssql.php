@@ -20,16 +20,23 @@
             else if ($type == 'Save')
             {
                 $query =    'DECLARE	@Status		INT
-                                    ,	@Message	NVARCHAR(MAX)'
-                            .'EXEC '.$procedure." '".$json."', 0, @Status OUTPUT, @Message OUTPUT".
+                                    ,	@Message	NVARCHAR(MAX)
                             '
-                            SELECT      @Status		AS	asd
-                                ,       @Message	AS	qwe';
+                            .'EXEC '.$procedure." '".$json."', 0, @Status OUTPUT, @Message OUTPUT".
+                            "
+                            SELECT      @Status		AS	Status
+                                ,       @Message	AS	Message";
             }
-
-            // $query = 'select "123" AS hihi,"minbeom" AS byby';
-            
-            if(($result = sqlsrv_query($conn,$query)) !== false)
+            $result = sqlsrv_query($conn,$query);
+            if($result !== false)
+            {
+                while($r = sqlsrv_fetch_object($result)) 
+                {
+                    $rows[] = $r;
+                }
+            }
+            $next_result = sqlsrv_next_result($result); 
+            if($next_result)
             {
                 while($r = sqlsrv_fetch_object($result)) 
                 {
