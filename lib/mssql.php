@@ -28,20 +28,22 @@
                                 ,       @Message	AS	Message";
             }
             $result = sqlsrv_query($conn,$query);
-            if($result !== false)
+            if($result != false)
             {
                 while($r = sqlsrv_fetch_object($result)) 
                 {
                     $rows[] = $r;
                 }
-            }
-            $next_result = sqlsrv_next_result($result); 
-            if($next_result)
-            {
-                while($r = sqlsrv_fetch_object($result)) 
+
+                do 
                 {
-                    $rows[] = $r;
-                }
+                    while ($r = sqlsrv_fetch_object($result)) 
+                    {
+                        $rows[] = $r;
+                    }
+                } 
+                while (sqlsrv_next_result($result));
+
             }
 
             sqlsrv_free_stmt($result);
