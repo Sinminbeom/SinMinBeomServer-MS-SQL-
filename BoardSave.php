@@ -16,6 +16,8 @@
     //json -> string 으로 변경
     $json = json_encode($json);
 
+    $json = str_replace('&amp;','&',$json);
+
     $result = mssql_dbconnet('BoardSave',$json,'Query');
 
     echo $result;
