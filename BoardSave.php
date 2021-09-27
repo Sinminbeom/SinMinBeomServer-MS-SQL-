@@ -5,6 +5,7 @@
     $boardtitle = $_POST['BoardTitle'];
     $boardcontent = $_POST['BoardContent'];
     $boardseq = $_POST['BoardSeq'];
+    $username = $_POST['UserName'];
 
     //json 으로 변경
     $json = array(
@@ -18,7 +19,7 @@
 
     $json = str_replace('&amp;','&',$json);
 
-    $result = mssql_dbconnet('BoardSave',$json,'Query');
+    $result = mssql_dbconnet('BoardSave',$json,$username,'Query');
 
     echo $result;
 

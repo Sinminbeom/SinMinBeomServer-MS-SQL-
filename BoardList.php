@@ -3,7 +3,7 @@
     require __DIR__ . '/lib/header.php';
 
 
-    $result = mssql_dbconnet('BoardQuery','','Query');
+    $result = mssql_dbconnet('BoardQuery','','','Query');
 
     echo $result;
     

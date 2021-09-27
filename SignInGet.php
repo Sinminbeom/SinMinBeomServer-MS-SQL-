@@ -14,7 +14,7 @@
     //json -> string 으로 변경
     $json = json_encode($json);
 
-    $result = mssql_dbconnet('SignInGet',$json,'Save');
+    $result = mssql_dbconnet('SignInGet',$json,'0','Save');
     
     echo $result;   
 

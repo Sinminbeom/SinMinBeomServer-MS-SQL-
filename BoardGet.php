@@ -12,7 +12,7 @@
     //json -> string 으로 변경
     $json = json_encode($json);
 
-    $result = mssql_dbconnet('BoardQuery',$json,'Query');
+    $result = mssql_dbconnet('BoardQuery',$json,'','Query');
 
     echo $result;
 
