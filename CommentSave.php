@@ -5,7 +5,7 @@
     $BoardSeq = $_POST['BoardSeq'];
     $BoardCommentContent = $_POST['BoardCommentContent'];
     $UpCommentSeq = $_POST['UpCommentSeq'];
-    $UserName = $_POST['UserName'];
+    $UserSeq = $_POST['UserSeq'];
 
     //json 으로 변경
     $json = array(
@@ -17,7 +17,7 @@
     //json -> string 으로 변경
     $json = json_encode($json);
 
-    $result = mssql_dbconnet('CommentSave',$json,$UserName,'Save');
+    $result = mssql_dbconnet('CommentSave',$json,$UserSeq,'Save');
 
     echo $result;
 

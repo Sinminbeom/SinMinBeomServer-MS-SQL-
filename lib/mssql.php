@@ -1,5 +1,5 @@
 <?php
-    function mssql_dbconnet($procedure,$json,$username,$type){
+    function mssql_dbconnet($procedure,$json,$userseq,$type){
         $serverName = '192.168.219.103';
         $connectionOptions = array(
             'Database' => 'MinBeom',
@@ -15,14 +15,14 @@
 
             if($type == 'Query')
             {
-                $query = 'EXEC '.$procedure." '".$json."', '".$username."'";
+                $query = 'EXEC '.$procedure." '".$json."', '".$userseq."'";
             }
             else if ($type == 'Save')
             {
                 $query =    'DECLARE	@Status		INT
                                     ,	@Message	NVARCHAR(MAX)
                             '
-                            .'EXEC '.$procedure." '".$json."', '".$username."', @Status OUTPUT, @Message OUTPUT".
+                            .'EXEC '.$procedure." '".$json."', '".$userseq."', @Status OUTPUT, @Message OUTPUT".
                             "
                             SELECT      @Status		AS	Status
                                 ,       @Message	AS	Message";
